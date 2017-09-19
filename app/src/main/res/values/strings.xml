@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Sample Barcode</string>
+    <string name="title_activity_navigation">NavigationActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="smart_pos_title">FOODIE</string>
+    <string name="nav_new_entry">NEW ORDER</string>
+    <string name="nav_orders">HISTORY</string>
+    <string name="nav_settings">SETTINGS</string>
+    <string name="nav_help">HELP</string>
+    <string name="done">DONE</string>
+    <string name="cancel">CANCEL</string>
+    <string name="back">BACK</string>
+    <string name="select_loyal_customer">Select Loyal Customer</string>
+    <string name="select_camera">Select a Camera</string>
+    <string name="ok_button">OK</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="sample">sample</string>
+</resources>

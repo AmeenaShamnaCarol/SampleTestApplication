@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/new_orders"
+            android:icon="@drawable/new_order"
+            android:title="@string/nav_new_entry" />
+        <item
+            android:id="@+id/order_history"
+            android:icon="@drawable/history"
+            android:title="@string/nav_orders" />
+<!--        <item
+            android:id="@+id/manage_order"
+            android:icon="@drawable/manage_order"
+            android:title="MANAGE ORDER" />-->
+
+<!--        <item
+            android:id="@+id/delivery_float"
+            android:icon="@drawable/delv_float"
+            android:title="DELIVERY FLOAT" />-->
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/settings"
+            android:title="@string/nav_settings" />
+        <item
+            android:id="@+id/help"
+            android:icon="@drawable/help"
+            android:title="@string/nav_help" />
+    </group>
+</menu>

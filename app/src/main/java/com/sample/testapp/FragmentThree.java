@@ -81,17 +81,18 @@ public class FragmentThree extends Fragment {
 
     };
     /**
-     * Store Order Listener
+     * Complete Order Listener
      **/
-    private IPoyntOrderServiceListener storeOrderListener = new IPoyntOrderServiceListener.Stub() {
+    private IPoyntOrderServiceListener completeOrderListener = new IPoyntOrderServiceListener.Stub() {
         @Override
-        public void orderResponse(final Order order, final String s, final PoyntError poyntError) throws RemoteException {
-//            closeProgress();
+        public void orderResponse(final Order ord, final String s, final PoyntError poyntError) throws RemoteException {
             if (poyntError == null) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Log.i("checkpoint", "3.1");
                         closeProgress();
+                        logLargeString("orderVal", new Gson().toJson(ord));
                     }
                 });
             } else {
@@ -99,6 +100,39 @@ public class FragmentThree extends Fragment {
                     @Override
                     public void run() {
                         closeProgress();
+                        Toast.makeText(getActivity(), poyntError.getReason(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+        }
+    };
+
+    /**
+     * Store Order Listener
+     **/
+    private IPoyntOrderServiceListener storeOrderListener = new IPoyntOrderServiceListener.Stub() {
+        @Override
+        public void orderResponse(final Order ord, final String s, final PoyntError poyntError) throws RemoteException {
+//            closeProgress();
+            if (poyntError == null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        logLargeString("storedOrder", new Gson().toJson(ord));
+                        try {
+                            MainActivity.orderService.completeOrder(ord.getId().toString(), ord, UUID.randomUUID().toString(), completeOrderListener);
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            } else {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        closeProgress();
+                        Toast.makeText(getActivity(), poyntError.getReason(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -160,7 +194,7 @@ public class FragmentThree extends Fragment {
         List<OrderItem> itemList = new ArrayList<>();
         OrderItem item1 = new OrderItem();
         item1.setName("Cabbage");
-        item1.setUnitPrice(8500L);
+        item1.setUnitPrice(85000L);
         item1.setSku("CBU");
         item1.setUnitOfMeasure(UnitOfMeasure.KILOGRAM);
         item1.setQuantity(1.5f);
@@ -170,7 +204,7 @@ public class FragmentThree extends Fragment {
 
         OrderItem item2 = new OrderItem();
         item2.setName("Green Onion");
-        item2.setUnitPrice(7500L);
+        item2.setUnitPrice(75000L);
         item2.setSku("GONI");
         item2.setUnitOfMeasure(UnitOfMeasure.KILOGRAM);
         item2.setQuantity(1.25f);
@@ -347,6 +381,15 @@ public class FragmentThree extends Fragment {
                     mTransactionServiceListener);
         } catch (RemoteException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void logLargeString(String TAG, String str) {
+        if (str.length() > 3000) {
+            Log.i(TAG, str.substring(0, 3000));
+            logLargeString(TAG, str.substring(3000));
+        } else {
+            Log.i(TAG, str);
         }
     }
 }

@@ -2,11 +2,8 @@ package com.sample.testapp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -61,9 +57,6 @@ public class FragmentThree extends Fragment {
     String lastReferenceId;
     private static final int COLLECT_PAYMENT_REQUEST = 13132;
     public static ProgressDialog progressDialog;
-    public Button scanBtn;
-    private static final int SCANNER_REQUEST_CODE = 46576;
-    TextView txtView;
     private static String TAG = "F3";
     /**
      * Transaction listener
@@ -117,8 +110,6 @@ public class FragmentThree extends Fragment {
         View view = inflater.inflate(R.layout.fragment_three, container, false);
         btn_order = (Button) view.findViewById(R.id.btn_order);
         btn_cash = (Button) view.findViewById(R.id.btn_cash);
-        scanBtn=(Button)view.findViewById(R.id.scan);
-        txtView=(TextView)view.findViewById(R.id.showText) ;
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCancelable(false);
         btn_cash.setOnClickListener(new View.OnClickListener() {
@@ -141,19 +132,7 @@ public class FragmentThree extends Fragment {
                 }
             }
         });
-        scanBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              /*** launch barcode camera*/
 
-              Intent intent=new Intent("poynt.intent.action.SCANNER");
-                intent.putExtra("MODE","MULTI");
-                IntentFilter scanFilter=new IntentFilter();
-                scanFilter.addAction("poynt.intent.action.SCANNER_RESULT");
-                getActivity().registerReceiver(scanResultReceiver,scanFilter);
-                startActivityForResult(intent,SCANNER_REQUEST_CODE);
-            }
-        });
         btn_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,6 +142,7 @@ public class FragmentThree extends Fragment {
         });
         return view;
     }
+
     /**
      * close the Progress Dialog
      **/
@@ -180,7 +160,7 @@ public class FragmentThree extends Fragment {
         List<OrderItem> itemList = new ArrayList<>();
         OrderItem item1 = new OrderItem();
         item1.setName("Cabbage");
-        item1.setUnitPrice(85000L);
+        item1.setUnitPrice(8500L);
         item1.setSku("CBU");
         item1.setUnitOfMeasure(UnitOfMeasure.KILOGRAM);
         item1.setQuantity(1.5f);
@@ -190,7 +170,7 @@ public class FragmentThree extends Fragment {
 
         OrderItem item2 = new OrderItem();
         item2.setName("Green Onion");
-        item2.setUnitPrice(75000L);
+        item2.setUnitPrice(7500L);
         item2.setSku("GONI");
         item2.setUnitOfMeasure(UnitOfMeasure.KILOGRAM);
         item2.setQuantity(1.25f);
@@ -369,15 +349,4 @@ public class FragmentThree extends Fragment {
             e.printStackTrace();
         }
     }
-    BroadcastReceiver scanResultReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String code = intent.getStringExtra("CODE");
-            String format = intent.getStringExtra("FORMAT");
-            Toast.makeText(getActivity(),"code"+code,Toast.LENGTH_LONG).show();
-            txtView.setText("Scanner request was successful - Code:"
-                    + code + " Format:" + format);
-        }
-    };
-
 }
